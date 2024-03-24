@@ -77,7 +77,7 @@ public class AdminController {
     }
 
     @GetMapping("/relayPoint-name/{relayPointName}")
-    public ResponseEntity<RelayPointMapperDTO> getRelayPointBayName(@PathVariable String relayPointName){
+    public List<RelayPointMapperDTO> getRelayPointBayName(@PathVariable String relayPointName){
         return relayPointService.getRelayPointByName(relayPointName);
     }
 

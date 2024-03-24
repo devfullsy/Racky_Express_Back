@@ -25,5 +25,5 @@ public class RelayPointDTO {
     private String registrationNumber;
     private String documentType;
     private LocalDate expirationDate;
-
+    private String status;
 }

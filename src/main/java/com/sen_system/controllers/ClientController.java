@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientController {
     private final UserServiceImpl userService;
-    private final RelayPointServiceImpl relayPointService;
     private String username;
 
     public void setUsername(String username) {
@@ -49,27 +48,4 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de la photo de profil.");
         }
     }
-
-    //les endpoints pour les points relais
-
-    @GetMapping("/relayPoint-name/{relayPointName}")
-    public ResponseEntity<RelayPointMapperDTO> getRelayPointBayName(@PathVariable String relayPointName){
-        return relayPointService.getRelayPointByName(relayPointName);
-    }
-
-    @GetMapping("/relayPoint-country/{country}")
-    public List<RelayPointMapperDTO> getAllRelayPointsByCountry(@PathVariable String country){
-        return relayPointService.getRelayPointsByCountry(country);
-    }
-
-    @GetMapping("/relayPoint-city/{city}")
-    public List<RelayPointMapperDTO> getAllRelayPointsByCity(@PathVariable String city){
-        return relayPointService.getRelayPointsByCity(city);
-    }
-
-    @GetMapping("/relayPoint-district/{district}")
-    public List<RelayPointMapperDTO> getAllRelayPointsByDistrict(@PathVariable String district){
-        return relayPointService.getRelayPointsByDistrict(district);
-    }
-
 }

@@ -25,7 +25,6 @@ public class RelayPoint {
     private Long id;
 
     @NotEmpty
-    @Column(name = "relayPointName")
     private String name;
 
     @NotEmpty
@@ -70,4 +69,6 @@ public class RelayPoint {
     @NotEmpty
     private String registrationNumber;//numero SIRET - PATANTE - MATRICULE BOUTIQUE
 
+    @NotEmpty
+    private String status;
 }

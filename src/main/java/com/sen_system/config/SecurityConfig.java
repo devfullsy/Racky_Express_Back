@@ -34,7 +34,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).addFilterBefore(jwtAuthentificationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request ->request
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/**").permitAll()
                         .requestMatchers("/api/v1/client/profile/**").hasAnyAuthority(Role.CLIENT.name(), Role.ADMIN.name(), Role.RELAILLEUR.name())
                         .requestMatchers("/api/v1/client/**").hasAuthority(Role.CLIENT.name())
                         .requestMatchers("/api/v1/supAdmin/**").hasAuthority(Role.SUPADMIN.name())

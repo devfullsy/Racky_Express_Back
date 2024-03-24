@@ -1,16 +1,14 @@
 package com.sen_system.services.impl;
 
 import com.sen_system.controllers.ClientController;
-import com.sen_system.dtos.JwtAuthenticationResponse;
-import com.sen_system.dtos.RefreshTokenRequest;
-import com.sen_system.dtos.SignUpRequest;
-import com.sen_system.dtos.SigninRequest;
+import com.sen_system.dtos.*;
 import com.sen_system.entities.Clients;
 import com.sen_system.entities.Role;
 import com.sen_system.repositories.UserRepository;
 import com.sen_system.services.AuthenticationService;
 import com.sen_system.services.JWTService;
 import com.sen_system.utils.DownloadPicture;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,9 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Data
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
@@ -94,5 +94,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         return null;
+    }
+
+    @Override
+    public void changePassword(ChangePwdRequest changePwdRequest) {
+        Optional<Clients> optionalUser = userRepository.findByUsername(changePwdRequest.getUsername());
+
+        if (optionalUser.isPresent()){
+            Clients user = optionalUser.get();
+            if(!changePwdRequest.getNewPassword().isEmpty()){
+                user.setPassword(passwordEncoder.encode(changePwdRequest.getNewPassword()));
+                userRepository.save(user);
+            }
+        }
     }
 }

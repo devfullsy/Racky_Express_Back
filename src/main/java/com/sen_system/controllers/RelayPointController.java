@@ -38,6 +38,12 @@ public class RelayPointController {
         return relayPointService.getRelayPointsByCity(city);
     }
 
+    @GetMapping("/relayPoint-username/{username}")
+    public ResponseEntity<RelayPointMapperDTO>  getRelayPointByUsername(@PathVariable String username){
+        RelayPointMapperDTO relayPointMapperDTO = relayPointService.getRelayPointByUsername(username);
+        return ResponseEntity.ok(relayPointMapperDTO);
+    }
+
     @GetMapping("/driver/{reference}")
     public ResponseEntity<DriversMapperDTO>  getDriverByReference(@PathVariable String reference){
         return driverService.getDriverByReference(reference);

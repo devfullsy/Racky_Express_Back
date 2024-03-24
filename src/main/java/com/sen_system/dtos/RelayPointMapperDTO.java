@@ -17,4 +17,5 @@ public class RelayPointMapperDTO {
     private String address;
     private String description;
     private String openAtCloseAt;
+    private String status;
 }

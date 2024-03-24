@@ -16,8 +16,10 @@ public interface RelayPointService {
     List<RelayPointMapperDTO> getRelayPointsByCountry( String country);
     List<RelayPointMapperDTO> getRelayPointsByCity( String city);
     List<RelayPointMapperDTO> getRelayPointsByDistrict(String district);
-    ResponseEntity<RelayPointMapperDTO> getRelayPointByName(String relayPointName);
+    List<RelayPointMapperDTO> getRelayPointByName(String relayPointName);
     ResponseEntity<String> updateRelayPointById(Long id, RelayPoint updatedRelayPoint);
+
+    RelayPointMapperDTO getRelayPointByUsername(String username);
     String deleteRelayPoint( Long id);
 
     String saveRelailleurIdCard(String username, DocumentUploadDTO uploadDTO) throws IOException;

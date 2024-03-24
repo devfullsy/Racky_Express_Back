@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,7 +69,6 @@ public class UserServiceImpl implements UserService {
         userRepository.findByUsername(username)
                 .map(existingUser -> {
                     check(updatedUser, existingUser);
-                    if (updatedUser.getPassword()!= null){existingUser.setPassword(updatedUser.getPassword());}
                     return ResponseEntity.ok(userRepository.save(existingUser));
                 });
     }

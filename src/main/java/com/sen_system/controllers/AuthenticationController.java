@@ -1,10 +1,8 @@
 package com.sen_system.controllers;
 
-import com.sen_system.dtos.JwtAuthenticationResponse;
-import com.sen_system.dtos.RefreshTokenRequest;
-import com.sen_system.dtos.SignUpRequest;
-import com.sen_system.dtos.SigninRequest;
+import com.sen_system.dtos.*;
 import com.sen_system.services.AuthenticationService;
+import com.sen_system.services.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    private final AuthenticationServiceImpl authenticationService;
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest){
@@ -31,5 +29,11 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest){
         return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePwdRequest changePwdRequest) {
+        authenticationService.changePassword(changePwdRequest);
+        return ResponseEntity.ok("Mot de passe modifié avec succès.");
     }
 }

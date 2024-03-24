@@ -49,6 +49,7 @@ public class RelayPointServiceImpl implements RelayPointService {
                 if( relayPointDTO.getDescription()!=null){relayPoint.setDescription(relayPointDTO.getDescription());}
                 if( relayPointDTO.getOpenAtCloseAt()!=null){relayPoint.setOpenAtCloseAt(relayPointDTO.getOpenAtCloseAt());}
                 if( relayPointDTO.getDistrict()!=null){relayPoint.setDistrict(relayPointDTO.getDistrict());}
+                if( relayPointDTO.getStatus()!=null){relayPoint.setStatus(relayPointDTO.getStatus());}
                 user.setRole(Role.RELAILLEUR);
                 userRepository.save(user);
                 relayPointRepository.save(relayPoint);
@@ -94,10 +95,11 @@ public class RelayPointServiceImpl implements RelayPointService {
     }
 
     @Override
-    public ResponseEntity<RelayPointMapperDTO> getRelayPointByName(String relayPointName) {
-        return relayPointRepository.findRelayPointByUsername(relayPointName)
-                .map(relayPoint -> ResponseEntity.ok(relayPointDTOMapper(relayPoint)))
-                .orElse(ResponseEntity.notFound().build());
+    public List<RelayPointMapperDTO> getRelayPointByName(String relayPointName) {
+        Optional<RelayPoint> relayPoints = relayPointRepository.findRelayPointByName(relayPointName);
+        return relayPoints.stream()
+                .map(this::relayPointDTOMapper)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -109,6 +111,12 @@ public class RelayPointServiceImpl implements RelayPointService {
                     return ResponseEntity.ok("Mise à jour du point relais effectuée avec succès.");
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public RelayPointMapperDTO getRelayPointByUsername(String username) {
+        Optional<RelayPoint> optionalRelayPoint = relayPointRepository.findRelayPointByUsername(username);
+            return optionalRelayPoint.map(this::relayPointDTOMapper).orElse(null);
     }
 
     @Override
@@ -151,6 +159,7 @@ public class RelayPointServiceImpl implements RelayPointService {
         if (updatedRelayPoint.getDescription()!= null){existingRelaypoint.setDescription(updatedRelayPoint.getDescription());}
         if (updatedRelayPoint.getOpenAtCloseAt()!= null){existingRelaypoint.setOpenAtCloseAt(updatedRelayPoint.getOpenAtCloseAt());}
         if (updatedRelayPoint.getUsername()!= null){existingRelaypoint.setPhoneNumber(updatedRelayPoint.getUsername());}
+        if (updatedRelayPoint.getStatus()!= null){existingRelaypoint.setStatus(updatedRelayPoint.getStatus());}
         }
 
     private RelayPointMapperDTO relayPointDTOMapper(RelayPoint relayPoint){
@@ -163,7 +172,8 @@ public class RelayPointServiceImpl implements RelayPointService {
                 relayPoint.getEmail(),
                 relayPoint.getAddress(),
                 relayPoint.getDescription(),
-                relayPoint.getOpenAtCloseAt()
+                relayPoint.getOpenAtCloseAt(),
+                relayPoint.getStatus()
         );
     }
 }
